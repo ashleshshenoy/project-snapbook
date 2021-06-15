@@ -1,0 +1,153 @@
+{% extends "front/base.html" %}
+{% load static %}
+{% block content %}
+
+{% if user in profileof.profile.followers.all or user == profileof or not profileof.profile.private   %}
+
+
+
+    <div class="content-section  mb-3" id='profile-box' >
+
+
+
+      <div class="container" >
+        <div class="row" >
+          <div class="col-xs-4"  >
+            <img class="rounded-circle account-img"  src="{{ profileof.profile.image.url }}">
+          </div>
+          <div class="col-xs-8">
+            <h2 class="account-heading">{{ profileof.username }}</h2>
+            <p class="text-secondary" style="word-break: break-all;"> {{ profileof.email }}</p>
+            <p style="color:green;">Last seen {{ profileof.last_login }}</p>
+          </div>
+        </div>
+        <hr>
+
+        <div class="row" id="count-bar">
+          <div class="col-xs-4 ">
+            <medium>{{ total_post}} Posts</medium>
+          </div>
+          <div class="col-xs-4 ">
+            <medium>{{ total_like}} Likes</medium>
+          </div>
+          <div class="col-xs-4 ">
+            <medium>{{total_comment}} Comments</medium>
+          </div>
+        </div>
+
+    </div>
+
+    </div>
+    {% if user == profileof %}
+    <a class="btn btn-outline-primary btn-block mb-5" href="{% url 'profile-edit'%}">edit</a>
+    {%endif%}
+
+
+
+
+
+<h2>POSTS</h2>
+
+{% for post in posts %}
+<div class="fluid-container mt-4 mb-5" id="post-box">
+
+
+
+<!-- post header -->
+        <div class="content-section " id="post-header" >
+                <div class="flex-row">
+                      <a href="{% url 'profile-view' post.user.id %}">
+                          <small style= "font-size:15px; margin-bottom:0px;">{{post.user.username}}</small>
+                          <img src="{{post.user.profile.image.url}}" style=" float:left"   id="header-pic"class="rounded-circle account-img ">
+                      </a><br>
+                      <small style="font-size:10px; margin-bottom:0px;">{{post.location}}</small>
+                </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- post image section------------------------------------------------------- -->
+
+
+
+      <div class="media">
+      <!--<a href="{{post.img.url}}" download="{{post.url}}" class="mx-auto d-block" onclick="return confirm('DO YOU WANT TO DONWLOAD THE FILE?')"><img class="account-img" src="{{ post.img.url }}"></a>-->
+      <a href="{% url 'post-detail' post.id%}"><img src="{{ post.image.url }}" alt="loading image" class="responsive" width="300" height="300"></a>
+      </div>
+
+
+      <!-- post details section ---------------------------------------------->
+                    <div class="content-section " >
+
+                          <p class="text-secondary">{{ post.caption }}</p>
+
+
+
+                          <!-- likes -->
+                          <div class="row" id="like-comment-container">
+
+
+                              <!-- likes details -->
+                              <div class="col-xs-4">
+                                {%if user.is_authenticated%}
+                                  <form  action="{%url 'post-like' post.id %}" method="post" >
+                                    {% csrf_token %}
+                                    {% if user in post.like.all %}
+                                    <button name="post_id" value="{{ post.id}}" type="submit" style="color:blue" class="fa fa-thumbs-up" ></button>
+                                    <small >{{post.like.count }}</small>
+                                    {% else %}
+                                    <button name="post_id" value="{{ post.id}}" type="submit" class="fa fa-thumbs-up" ></button>
+                                    <small >{{post.like.count }}</small>
+                                    {% endif %}
+                                  </form>
+                                {%else%}
+                                            <button class="fa fa-thumbs-up" onclick="alert('login first to like the post')"></button>
+                                            <small >{{ post.like.count}}</small>
+                                {%endif%}
+                              </div>
+
+                              <!-- comment details  -->
+                              <div class="col-xs-6">
+                                <a class="fa fa-comment" aria-hidden="true"  href="{% url 'post-detail' post.id %}"  ></a>
+                                <small >{{post.comment_set.count}}</small>
+                              </div>
+
+
+                          </div>
+
+                          <!-- post date details -->
+                          <div class="row">
+                              <div class="col-12">
+                                <small id="post-date">Posted on {{post.date_posted}}</small>
+                              </div>
+                          </div>
+
+
+
+                    </div>
+
+
+      </div>
+{% endfor %}
+
+{%else%}
+
+<center>
+  <h1>content not available</h1>
+  <img src="{% static 'users/error.png'%}" >
+  <p class="mb-5">{{profileof.username}}'s account is private.</p>
+  </center>
+{% endif %}
+
+
+{% endblock content %}

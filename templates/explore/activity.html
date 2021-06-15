@@ -1,0 +1,126 @@
+{% extends 'explore/base.html' %}
+{% block title %}Activity{% endblock %}
+{% block content %}
+
+
+
+<!-- =============================================================================
+=======================user request notifications =============================== -->
+
+<div class="fluid-container mb-5">
+  <h5 class="text-info mb-4">Follow requests.</h5>
+  {% for notification in request_notifications %}
+  <div class="fluid-container notify mb-2">
+    <div class="fluid-container float-left ">
+      <a href="{% url 'profile-view' notification.id %}"><img src="{{ notification.profile.image.url }}"
+          style="width:40px;height:40px;" class="rounded-circle float-left border b-1 mr-2 "></a>
+      <small class=" float-left ml-3 mt-2">{{ notification.username }} Has requested to follow you</small>
+    </div>
+    <div class="fluid-container float-right button-control">
+      <a href="{% url 'request-accept' notification.id %}" class="btn btn-success btn-sm  ml-3"><i
+          class="fas fa-check mr-2 mt-1 " style="font-size:9px;"></i>Accept</a>
+      <a href="{% url 'request-cancel' notification.id %}" class="btn btn-danger btn-sm  ml-3"><i
+          class="fas fa-times mr-2 mt-1 " style="font-size:9px;"></i>Cancel</a>
+      {% if user in notification.profile.followers.all or user == result %}
+      <a class="btn btn-sm border b-1 ml-3 ">Following</a>
+
+      {% elif user in notification.profile.follow_request.all %}
+      <a class="btn btn-warning btn-sm ml-3 "><i class="fas fa-user-plus  mr-2 mt-1 "></i>pending</a>
+      {% else %}
+      <a href="{% url 'follow-request' notification.id %}" class="btn btn-info btn-sm ml-3  "><i
+          class="	fas fa-user-plus mr-2 mt-1"></i>follow</a>
+      {% endif  %}
+    </div>
+  </div>
+  {% endfor %}
+
+  {% if not request_notifications  %}
+  <center><i class="text-secondary text-lg "> <small>You dont have any follow requests.</small></i></center>
+  {% endif %}
+</div>
+<hr>
+
+
+
+
+<!-- =======================================================================================
+====================user notifications====================================================== -->
+
+
+
+
+
+<div class="fluid-container notify mb-5 flex-column ">
+  <h5 class="text-info mb-4">Activity.</h5>
+  {% for i in notifications %}
+  {% if i.notify_type == "comment" %}
+  <div class="fluid-container  ">
+    <a href="{% url 'delete-activity' i.id %}" class="float-right">&times;</a>
+    <a href="{% url 'profile-view' i.notify_from.id %}"><img src="{{ i.notify_from.profile.image.url }}"
+        style="width:40px;height:40px;" class="rounded-circle  border b-1 mr-2 "></a>
+    <small class="  ml-3 mt-2">{{ i.notify_from.username }} has commented on your post</small>
+  </div>
+  {% elif i.notify_type == "like" %}
+  <div class="fluid-container">
+    <a href="{% url 'delete-activity' i.id %}" class="float-right ">&times;</a>
+    <a href="{% url 'profile-view' i.notify_from.id %}"><img src="{{ i.notify_from.profile.image.url }}"
+        style="width:40px;height:40px;" class="rounded-circle  border b-1 mr-2 "></a>
+    <small class="  ml-3 mt-2">{{ i.notify_from.username}} has liked your post</small>
+  </div>
+  {% else %}
+  <div class="fluid-container ">
+    <a href="{% url 'delete-activity' i.id %}" class="float-right ">&times;</a>
+    <a href="{% url 'profile-view' i.notify_from.id %}"><img src="{{ i.notify_from.profile.image.url }}"
+        style="width:40px;height:40px;" class="rounded-circle  border b-1 mr-2 "></a>
+    <small class=" ml-3 mt-2"><strong>alert:notification from admin:</strong>{{i.notify_msg}}</small>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+
+
+  {% if not notifications %}
+  <center><i class="text-secondary text-lg "> <small>You dont have any notifications.</small> </i></center>
+  {% endif %}
+</div>
+
+<hr>
+
+
+
+
+
+<!--============================================================================
+================================accounts that user doesnt follow back===================-->
+
+<div class="fluid-container ">
+  {% if follow_back %}
+  <h5 class="text-info mb-4">Accounts that follow you.</h5>
+  {% for notification in follow_back %}
+ 
+  <div class="fluid-container notify mb-2">
+    <div class="fluid-container float-left ">
+      <a href="{% url 'profile-view' notification.id %}"><img src="{{ notification.profile.image.url }}"
+          style="width:40px;height:40px;" class="rounded-circle float-left border b-1 mr-2 "></a>
+      <small class=" float-left ml-3 mt-2">Follow back {{ notification.username }} to see thier posts.</small>
+    </div>
+    <div class="fluid-container float-right button-control">
+      <a href="{% url 'follow-request' notification.id %}" class="btn btn-success btn-sm  ml-3"><i
+          class="fas fa-user-plus mr-2 mt-1 " style="font-size:9px;"></i>follow back</a>
+    </div>
+  </div>
+  
+  {% endfor %}
+  {% endif %}
+
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

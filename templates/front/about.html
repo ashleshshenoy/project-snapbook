@@ -1,0 +1,64 @@
+{% extends 'front/base.html'%}
+{%load static%}
+{%block title%}About{%endblock%}
+{%block content%}
+
+<style media="screen">
+  img {
+    max-width: 300px;
+
+    max-height: 300px;
+  }
+</style>
+
+
+<div class="fluid-container mb-5">
+
+
+
+
+
+
+
+  <div class="card mb-5 " style="width:300px" id="">
+    <img src="{% static 'users/ashi.jpg'%}" alt="" class="card-img-top">
+    <div class="card-body ">
+      <h4 class="card-title">Ashlesh shenoy</h4>
+      <p class="card-text">Played a major role in developing the backend of the website,
+        also worked as a front end engineer.</p>
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/ashlesh-shenoy-a94760207/" target="_blank"
+        name="button">Linked-in</a>
+    </div>
+  </div>
+
+  <div class="card mb-5 " style="width:300px">
+    <img src="{% static 'users/gopal.jpg'%}" alt="" class="card-img-top">
+    <div class="card-body">
+      <h4 class="card-title">Gopal shenoy</h4>
+      <p class="card-text">Worked as project manager. Actively took part in UI/UX design.</p>
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/gopalakrishna-shenoy-884478150/" target="_blank"
+        name="button">Linked-in</a>
+    </div>
+  </div>
+
+  <div class="card " style="width:300px">
+    <img src="{% static 'users/default.jpg'%}" alt="" class="card-img-top">
+    <div class="card-body">
+      <h4 class="card-title">Vinayak kudva</h4>
+      <p class="card-text">Contributed to design the UI/UX.</p>
+      <a class="btn btn-primary" href="https://www.linkedin.com/in/gopalakrishna-shenoy-884478150/" target="_blank"
+        name="button">Linked-in</a>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{%endblock content%}

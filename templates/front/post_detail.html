@@ -1,0 +1,209 @@
+{% extends 'front/base.html'%}
+{% load crispy_forms_tags %}
+{%block title%}post{%endblock%}
+{%block content%}
+
+
+
+<!-- on page internal css section-->
+
+
+
+<!-- buttons
+to navgigate back
+download the photo
+to edit (if post belongs to user)
+delete if post belongs to user-->
+<a type="button" href="{%url 'front-page'%}" class="btn btn-secondary" ><i class='	fas fa-chevron-circle-left' style='font-size:24px'></i></a>
+
+
+
+
+
+
+
+
+
+<!-- The Modal --------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------->
+<div class="modal" style="background-color:rgb(0,0,0,0.7)" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Post options</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        {% if object.user == user %}
+        <a href="{%url 'post-update' object.id %}" class="btn btn-outline-info dropdown-item"  ><i class='fas fa-edit mr-1'></i>edit</a>
+        <a href="{%url 'post-delete' object.id %}" class="btn btn-outline-danger dropdown-item" > <i class='fas fa-trash-alt mr-1'></i>delete</a>
+        {% endif %}
+        <a href="{{object.img.url}}" download="{{object.url}" donwload class="btn btn-outline-primary dropdown-item"  onclick="return confirm('Do you want to download this picture?')"><i class="far fa-arrow-alt-circle-down mr-1"></i>  download</a>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+          <small>posted by {{object.user}} on {{object.date_posted}}</small>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+  <div class="button-container">
+
+  </div>
+
+  <!--- header of post ----------------------------------------------------------------------------->
+              <div class="fluid-container  mt-4 mb-5" id="post-box" >
+
+
+
+
+
+                  <div class="content-section mt-5" id="post-header">
+
+
+                          <div class="flex-row">
+
+                            <button type="button" class="	fas fa-ellipsis-v float-right fade-slow " style="outline:none;" data-toggle="modal"  data-target="#myModal"></button>
+
+                                <a href="{% url 'profile-view' object.user.id %}">
+                                    <small style="font-size:15px; margin-bottom:0px;">{{ object.user.username}}</small>
+                                    <img src="{{object.user.profile.image.url}}" style=" float:left"   id="header-pic"class="rounded-circle account-img ">
+
+                                </a><br>
+                                <small style="font-size:10px; margin-bottom:0px;">{{ object.location}}</small>
+
+
+
+
+                          </div>
+
+                  </div>
+
+
+
+
+
+
+  <!-- post image section------------------------------------------------------- -->
+
+
+
+  <div class="media">
+  <!--<a href="{{post.img.url}}" download="{{post.url}}" class="mx-auto d-block" onclick="return confirm('DO YOU WANT TO DONWLOAD THE FILE?')"><img class="account-img" src="{{ post.img.url }}"></a>-->
+  <a href="#"><img src="{{ object.image.url }}" alt="loading image" class="responsive" ></a>
+  </div>
+
+<!-- post details section ---------------------------------------------->
+                      <div class="content-section" id="caption">
+                              <!-- caption -->
+                              <div class="row">
+                                <div class="col-12">
+                                  <p class="text-secondary">{{ object.caption }}</p>
+                                </div>
+                              </div>
+
+                            <!-- likes and comments icons and count-->
+                            <div class="row" id="like-comment-container">
+
+
+                                <!-- likes details -->
+                                <div class="col-xs-4">
+                                  {%if user.is_authenticated%}
+                                    <form  action="{%url 'post-like' object.pk %}" method="post" >
+                                      {% csrf_token %}
+                                      {% if user in object.like.all %}
+                                      <button name="post_id" value="{{ object.id}}" type="submit" style="color:blue" class="fa fa-thumbs-up" ></button>
+                                      <small >{{ object.like.count }}</small>
+                                      {% else %}
+                                      <button name="post_id" value="{{ object.id}}" type="submit" class="fa fa-thumbs-up" ></button>
+                                      <small >{{ object.like.count }}</small>
+                                      {% endif %}
+                                    </form>
+                                  {%else%}
+                                              <button class="fa fa-thumbs-up" onclick="loginreq()"></button>
+                                              <small >{{ object.like.count}}</small>
+                                  {%endif%}
+                                </div>
+
+                                <!-- comment details  -->
+                                <div class="col-xs-4">
+                                  {%if user.is_authenticated%}
+                                          <button class="fa fa-comment" aria-hidden="true"  id="trail" data-toggle="collapse" data-target="#comment-section" ></button>
+                                          <small >{{object.comment_set.count}} </small>
+                                  {%else%}
+                                          <button class="fa fa-comment" aria-hidden="true"  onclick="loginreq()" ></ button>
+                                          <small >{{object.comment_set.count}} </small>
+                                  {%endif%}
+                                </div>
+
+                            </div>
+
+                            <!-- post date details -->
+                            <div class="row">
+                                <div class="col-12">
+                                  <small id="post-date">Posted on {{object.date_posted}}</small>
+                                </div>
+                            </div>
+
+                            <!-- alert for logging in -->
+                            <div class="alert alert-warning mt-3 alert-dismissible" id="login-alert">
+                              <strong>Alert! </strong> Login required. Please login first.
+                            </div>
+
+                          </div>
+
+
+
+
+
+  <!-- --------------------------- comment section-----------------------------------
+              toggle- enabled
+              form for new comments
+              view for existing comments
+              username of commentator
+
+              day of comment
+                            --------------------------------------------------------->
+
+                          <div  id="comment-section" class="collapse" >
+                            <p>comments:</p>
+                            <form class="form-inline" action="{% url 'post-detail' object.id %}" method="post">
+                                  {% csrf_token %}
+                                  <input type="text"  class="form-control"name="comment-text" value="">
+                                  <button type="submit"  class="btn btn-outline-primary btn-sm" name="button" >submit</button>
+                            </form>
+
+                            {% for comment in comments %}
+                                {% if comment.post == object %}
+                                        <div>{{comment.text}}  <small class="badge badge-dark badge-pill" style="font-size:8px"> {{comment.user.username}}</small></div>
+                                {% endif %}
+                            {% endfor%}
+
+                          </div>
+
+
+
+
+
+
+
+
+              </div>
+
+
+{%endblock content%}

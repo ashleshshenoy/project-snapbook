@@ -1,0 +1,76 @@
+<!--
+the page should have a search bar
+sorting methods to search
+a search bar button
+display the results of search
+results of search  must be multple div
+where each divison belongs to a search profile match
+the div must containe the profile image , detail 2 buttons =
+one button for visiting the profile
+one for sending friend request
+div must be created by bootstrap class handling
+
+ -->
+
+
+{% extends 'explore/base.html' %}
+{% load static %}
+{% block title%}search{% endblock %}
+{% block content %}
+
+
+
+
+<div class="fluid-container">
+    <form class="d-flex" action="{%url 'search'%} " method="POST">{% csrf_token %}
+        {% if text %}
+        <input type="text" class="form-control" placeholder="search for your friends" value={{text}} name="search-for">
+        {% else %}
+        <input type="text" class="form-control" placeholder="search for your friends" name="search-for">
+        {% endif %}
+        <button class="btn btn-secondary ml-2" type="submit">Search</button>
+    </form>
+
+{% if results %}
+    <div class="fluid-container mt-5">
+        {% for result in results %}
+        <div class="media border   mt-2 p-1" >
+            <img src="{{ result.profile.image.url }}" alt="" class="img-thumbnail m-2" style="width:60px; height:60px ;">
+            <div class="media-body m-2 searchlist">
+                {% if user in result.profile.followers.all or user == result  %}
+                <a class="btn btn-sm border b-1 float-right ">Following</a>
+                {% elif user in result.profile.follow_request.all  %}
+                <a  class="btn btn-warning btn-sm float-right "><i class="	fas fa-user-plus mr-1 "></i>pending</a>
+                {% else %}
+                <a href="{% url 'follow-request' result.id %}" class="btn btn-info btn-sm float-right "><i class="	fas fa-user-plus mr-1 "></i>follow</a>
+                {% endif %}
+                <h5>{{result.username}} </h5>
+                {% if result.profile.private %}
+                <small><i class="fas fa-user-shield mr-2"></i><i>private</i></small>
+                {% else %}
+                <small><i class="fas fa-user-alt mr-2  "></i><i>Public</i></small>
+                {% endif %}
+                <a href="{% url 'profile-view' result.id %}" class="btn btn-secondary btn-sm float-right">View profile</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+</div>
+
+{% if text and not results %}
+    <div class="fluid-container d-flex flex-column " >
+        <center><img src="{% static 'explore/notfound.png'%}" class="justify-content-center" style="width: 400px;width: 400px;" >
+      <h2 class="text-secondary">{{text}} does not exist</h2>
+      </center>
+    </div>
+
+
+{% endif %}
+
+
+
+
+
+
+{% endblock %}

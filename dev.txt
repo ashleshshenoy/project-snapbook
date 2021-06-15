@@ -1,0 +1,61 @@
+
+front-end:
+-offpage chnages like loading screen, Alert
+-explore -accordoin
+-changing  the theme of website --white backgroudn with dark blue footer and white texts in footer
+-make login as default entry--change the urls '' as login-register page
+-followers and following list -throught profile
+-more options layout
+-profile update with followes and followinf list
+
+
+
+
+backend:
+-integrate with some ml code in backend
+-opencv to camera
+-accessibitlity mode
+-train a faq chatting bot
+-messenger
+-display posts only from friends
+-post private option
+-stories
+-adding videos and post coursel 
+
+-abiltiy to change the private-status
+-activity part should be divided into 3 :
+          -requests
+          -notification
+          -app notification
+-giving user ability to delete comments from his Posts
+-comment should be chronological
+-post should be chronological
+
+
+
+
+
+
+
+
+
+
+
+~backend for friend and request
+      1) follower and following attribute handing                               (check)
+      2)  show profile only if user is a friend else if public                  (check)
+      3) sending friend request and accepting it                                (check)
+      4) explore page to find users                                             (check)
+      5)user notify if gets follow request                                      (check)
+      6) accept and decline methods                                              (check)
+                -accept and decline both should delete the request
+                -if accepted then add to follower att of request-user and following att of kwargs-user
+                -if declined dont add anything render the same page without the declined request
+
+
+
+
+
+
+color codes:
+ nav and footer #0492c4

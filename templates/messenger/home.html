@@ -1,0 +1,39 @@
+{% extends 'explore/base.html' %}
+{% load static %}
+{% block title %}messenger{% endblock %}
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'messenger/style.css' %}">
+</head>
+
+<div class="fluid-container">
+    <nav class="navbar bg-light">
+        <ul class="nav-item">
+            <li class="nav-link">
+                <h4 class="text-primary"> <i>Messenger</i></h4>
+            </li>
+            
+        </ul>
+    </nav>
+
+</div>
+
+<div class="fluid-container bg-light home pt-3 ">
+ 
+    {% for object in objects %}
+    <div class="fluid-container mb-2 ml-3">    
+        <img src="{{ object.profile.image.url }}" class="rounded-circle " alt="" style="width:40px;height:40px;">
+       <strong class="text-dark ml-3">{{ object.username }}</strong>
+        </div>
+    <hr>
+    {% endfor %}
+    
+</div>
+
+
+
+
+
+
+{% endblock %}

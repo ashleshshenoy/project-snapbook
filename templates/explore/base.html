@@ -1,0 +1,180 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Required meta tags ------------------------------------------------------------------------>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- add icon link --------------------------------------------------------------------------->
+    <link rel="icon" href="{%static 'front/logo.png'%}" type="image/x-icon">
+
+    <!-- Bootstrap CSS ---------------------------------------------------------------------------->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- link css file =---------------------------------------------------------------------------->
+    <link rel="stylesheet" type="text/css" href="{% static 'front/main.css' %}">
+
+    <!-- jquery&javascript links ---------------------------------------------------------------------------->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'front/style.js'%}"> </script>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+</head>
+
+
+
+
+
+<!-- title block -->
+
+<head>
+    <title>{% block title %} {% endblock %}</title>
+</head>
+
+<body>
+
+    <!-- navigation-------------------------------------------------------------------->
+    <header class="site-header ">
+        <nav class="navbar navbar-expand-md navbar-dark  fixed-top">
+            <div class="container">
+
+                {% if user.is_authenticated %}
+                <a class="navbar-brand mr-4" href="{%url 'front-page'%}"><span style="font-style:italic;"><b>Snap</b></span><span style="color:yellow;font-style: oblique;"><b>Book</b></span></a>
+                {% else %}
+                <a class="navbar-brand mr-4" href="#"><span style="font-style:italic;"><b>Snap</b></span><span style="color:yellow;font-style: oblique;"><b>Book</b></span></a>
+                {% endif %}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                    {% if user.is_authenticated %}
+                      <a class="nav-item nav-link text-light" href="{%url 'front-page'%}">Home</a>
+                      <a class="nav-item nav-link  text-light" href="{% url 'profile-view' user.id  %}"><i class="fas fa-user-alt mr-1"></i>Profile</a>
+                    {% endif %}
+                  </div>
+
+                  <!-- Navbar Right Side -->
+                  <div class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <a  class="nav-item nav-link  text-light" href="{% url 'post-create' %}"><i class="	fas fa-plus-circle mr-1"></i> Create post</a>
+                        <a  class="nav-item nav-link text-light" href="{% url 'search' %}"><i class="fas fa-search mr-1"></i>Search</a>
+                        <a  class="nav-item nav-link text-light" href="{% url 'messenger-home'  %}"><i class="fas fa-paper-plane mr-1"></i> Messenger</a>
+                        <a class="nav-item nav-link  text-light" href="{% url 'activity' %}"><i class="	far fa-bell mr-1"></i>Activity</a>
+                        <a class="nav-item nav-link  text-light" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-item nav-link text-light" href="{%url 'login' %}">Login</a>
+                        <a class="nav-item nav-link  text-light" href="{%url 'register'%}">Register</a>
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+
+
+
+    <!--main section of body-------------------------------------------------------------------------------------->
+
+    <main role="main" class="container">
+
+
+            <!-- block content section -->
+            <div  id="message_container" style="min-height: 500px;">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </div>
+            
+    </main>
+
+
+
+
+
+    <!-- footer section----------------------->
+
+    <div class="container-footer ">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <ul class="nav flex-column">
+                        <li><a href="{% url 'front-page'%}">Home</a></li>
+                        <li> <a href="{% url 'login'%}">Login</a></li>
+                        <li><a href="{% url 'register' %}">Register</a></li>
+                        <li> <a href="{% url 'about' %}">About</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-4">
+
+                    <ul class="nav flex-column">
+                        <b>Contact details:</b>
+                        <li>Mob no: 6361284091</li>
+                        <li>Tel no: 08248-237-389</li>
+                        <li>Mail-id:support@snapbook.in</li>
+                    </ul>
+
+
+
+
+                </div>
+
+                <div class="col-sm-4">
+                    <ul class="nav flex-column">
+
+                        <li>APIS</li>
+                        <li>Community guidelines</li>
+                        <li> Report an issue</li>
+                        <li> privacy policy</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 pt-4">
+                    <center> <span style="font-size:7px; color: 	rgb(255, 255, 255,0.5);">All the rights are resvserd
+                            under @2002copyrightact</span> </center>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+    <!-- scripts section---------------->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
