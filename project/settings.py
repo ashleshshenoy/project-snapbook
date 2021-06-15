@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-0l%-8++0!ixmuswzg@$r1i#3ckpn5i0_3^pf%gdbz)vo0(lq-s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['djangosnapbook.herokuapp.com/']
 
 
 # Application definition
