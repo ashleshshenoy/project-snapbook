@@ -154,5 +154,4 @@ STATICFILES_DIRS = (
 )
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DISABLE_COLLECTSTATIC=1
