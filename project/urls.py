@@ -21,7 +21,8 @@ from front import views as front_view
 from explore import views as explore_view
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.static import serve
+from  django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,7 +36,8 @@ urlpatterns = [
     path('activity/', explore_view.activityview, name='activity'),
     path('profile/<int:pk>/', user_view.profile_view, name='profile-view'),
     path('edit/', user_view.profile, name='profile-edit'),
-
+    url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
 
 
 ]
