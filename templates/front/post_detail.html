@@ -190,7 +190,7 @@ delete if post belongs to user-->
 
                             {% for comment in comments %}
                                 {% if comment.post == object %}
-                                        <div>{{comment.text}}  <small class="badge badge-dark badge-pill" style="font-size:8px"> {{comment.user.username}}</small></div>
+                                        <div>{{comment.text}}  <small class="badge badge-dark  float-right mt-3 mr-2" style="font-size:8px"> {{comment.user.username}}</small></div>
                                 {% endif %}
                             {% endfor%}
 
