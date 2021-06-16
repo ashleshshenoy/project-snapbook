@@ -31,7 +31,7 @@ urlpatterns = [
     path('', include("front.urls")),
     path('explore/', include("explore.urls")),
     path('register/', user_view.register, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='user/login.htmL'), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='user/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='user/logout.html'), name='logout'),
     path('activity/', explore_view.activityview, name='activity'),
     path('profile/<int:pk>/', user_view.profile_view, name='profile-view'),
