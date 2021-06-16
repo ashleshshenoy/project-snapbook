@@ -7,7 +7,7 @@ from PIL import Image
 class Profile(models.Model):
     user= models.OneToOneField(User,on_delete=models.CASCADE)
     image= models.ImageField(default='default.jpg',upload_to='profile_pics')
-    private=models.BooleanField(default=False)
+    private=models.BooleanField(default=True)
     followers= models.ManyToManyField(User,related_name='followers_list',blank=True)
     following= models.ManyToManyField(User,related_name='following_list',blank=True)
     follow_request=models.ManyToManyField(User,related_name='request_list',blank=True)
