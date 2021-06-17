@@ -1,0 +1,8 @@
+.home{
+    min-height:  500px;
+    border-top:solid black 2px;
+    box-shadow: 1px 1px 5px grey;
+}
+nav{
+    box-shadow: 1px 1px 5px grey;
+}
