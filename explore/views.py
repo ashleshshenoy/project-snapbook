@@ -50,7 +50,10 @@ def deletenotificationview(request,**kwargs):
 
 def requestview(request,**kwargs):
     user=User.objects.get(id=kwargs['pk'])
-    user.profile.follow_request.add(request.user)
+    if user.profile.public:
+        user.profile.followers.add(request.user)
+    else:
+        user.profile.follow_request.add(request.user)
     return redirect(request.META.get('HTTP_REFERER'))
 
 

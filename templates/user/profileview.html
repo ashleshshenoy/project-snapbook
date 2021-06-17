@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-{% if user in profileof.profile.followers.all or user == profileof or not profileof.profile.private   %}
+{% if user in profileof.profile.followers.all or user == profileof or profileof.profile.public   %}
 
 
 

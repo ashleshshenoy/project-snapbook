@@ -45,10 +45,10 @@ div must be created by bootstrap class handling
                 <a href="{% url 'follow-request' result.id %}" class="btn btn-info btn-sm float-right "><i class="	fas fa-user-plus mr-1 "></i>follow</a>
                 {% endif %}
                 <h5>{{result.username}} </h5>
-                {% if result.profile.private %}
-                <small><i class="fas fa-user-shield mr-2"></i><i>private</i></small>
+                {% if result.profile.public %}
+                <small><i class="fas fa-user-alt mr-2  "></i><i>public</i></small>
                 {% else %}
-                <small><i class="fas fa-user-alt mr-2  "></i><i>Public</i></small>
+                <small><i class="fas fa-user-shield mr-2"></i><i>private</i></small>
                 {% endif %}
                 <a href="{% url 'profile-view' result.id %}" class="btn btn-secondary btn-sm float-right">View profile</a>
             </div>
